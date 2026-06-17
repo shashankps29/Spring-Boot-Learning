@@ -2,12 +2,10 @@ package com.basic.SpringBoot.Basics.controller;
 
 import com.basic.SpringBoot.Basics.entity.BasicEntity;
 import com.basic.SpringBoot.Basics.repository.PersonRepository;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class BasicController {
@@ -41,13 +39,39 @@ public class BasicController {
 
         user.setName(entity.getName());
         user.setEmailAddress(entity.getEmailAddress());
-        return personRepository.save(user);
+        personRepository.save(user);
+
+        return user;
 
     }
 
     @DeleteMapping("del/{id}")
     public void del(@PathVariable Long id){
          personRepository.deleteById(id);
+
+    }
+
+    @PatchMapping("/upd/{id}")
+    public BasicEntity updatePartial(@PathVariable("id") Long id, @RequestBody BasicEntity entity){
+        BasicEntity user = personRepository.findById(id).orElse(null);
+
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+
+       if(entity.getName()!=null) {
+           user.setName(entity.getName());
+
+       }
+
+       if(entity.getEmailAddress()!=null) {
+           user.setEmailAddress(entity.getEmailAddress());
+
+       }
+
+        personRepository.save(user);
+
+        return user;
 
     }
 }
