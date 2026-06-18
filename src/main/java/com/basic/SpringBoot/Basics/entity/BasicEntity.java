@@ -2,6 +2,7 @@ package com.basic.SpringBoot.Basics.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 @Entity
@@ -16,8 +17,10 @@ public class BasicEntity {
 
     private String name;
 
-//    @Column(unique = true)
+    @NonNull
     private String emailAddress;
+
+    private String password;
 
 //    public void setEmailAddress(String emailAddress){
 //

@@ -1,7 +1,9 @@
 package com.basic.SpringBoot.Basics.controller;
 
+import com.basic.SpringBoot.Basics.Dtos.BasicEntityDTO;
 import com.basic.SpringBoot.Basics.entity.BasicEntity;
 import com.basic.SpringBoot.Basics.repository.PersonRepository;
+import com.basic.SpringBoot.Basics.service.BasicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +13,9 @@ import java.util.List;
 public class BasicController {
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+            private BasicService basicService;
 
     BasicEntity basic = new BasicEntity();
 
@@ -23,13 +28,24 @@ public class BasicController {
         BasicEntity entity = new BasicEntity();
         entity.setName(basic.getName());
         entity.setEmailAddress(basic.getEmailAddress());
+        entity.setPassword(basic.getPassword());
 
         return personRepository.save(entity);
     }
 
+    //Get Request Without DTO
     @GetMapping("/getAll")
     public List<BasicEntity> getPerson() {
         return personRepository.findAll();
+    }
+
+
+    //Get Request With DTO
+    @GetMapping("/get")
+    public List <BasicEntityDTO> getAll(){
+
+        return basicService.getAll();
+
     }
 
     @PutMapping("/update/{id}")
@@ -74,4 +90,9 @@ public class BasicController {
         return user;
 
     }
+
+//    @GetMapping("/home")
+//    public String getHome(){
+//        return "home fqifgqifg";
+//    }
 }
